@@ -1,5 +1,6 @@
 require("dotenv/config");
 const express = require("express");
+const sequelize = require("./models/connection");
 const cors = require("cors");
 const app = express();
 const port = process.env.PORT;
@@ -12,6 +13,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/", apiRouter);
 
-app.listen(port, () => {
-  console.log(`App on port ${port}`);
-});
+sequelize.sync().then(
+  app.listen(port, () => {
+    console.log(`App on port ${port}`);
+  })
+);
