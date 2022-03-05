@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/", apiRouter);
 
-sequelize.sync().then(
+sequelize.sync({ force: true }).then(
   app.listen(port, () => {
     console.log(`App on port ${port}`);
   })

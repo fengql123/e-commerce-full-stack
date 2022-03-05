@@ -14,10 +14,20 @@ const Product = sequelize.define(
     price: {
       type: DataTypes.FLOAT,
       allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Please enter your item price",
+        },
+      },
     },
     stock: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Please enter the amount of item in your inventory",
+        },
+      },
     },
     user_id: {
       type: DataTypes.UUID,

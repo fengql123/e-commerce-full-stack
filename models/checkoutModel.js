@@ -1,8 +1,8 @@
 const sequelize = require("./connection");
 const { DataTypes } = require("sequelize");
 
-const Order = sequelize.define(
-  "Order",
+const CheckOut = sequelize.define(
+  "CheckOut",
   {
     payment: {
       type: DataTypes.STRING,
@@ -22,4 +22,4 @@ const Order = sequelize.define(
   }
 );
 
-module.exports = Order;
+module.exports = CheckOut;
