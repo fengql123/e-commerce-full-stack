@@ -1,5 +1,6 @@
 const sequelize = require("./connection");
 const { DataTypes } = require("sequelize");
+const User = require("./userModel");
 
 const Product = sequelize.define(
   "Product",
@@ -10,6 +11,16 @@ const Product = sequelize.define(
       defaultValue: DataTypes.UUIDV4,
       unique: true,
       allowNull: false,
+      primaryKey: true,
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: "Please enter your item name",
+        },
+      },
     },
     price: {
       type: DataTypes.FLOAT,
@@ -29,18 +40,13 @@ const Product = sequelize.define(
         },
       },
     },
-    user_id: {
-      type: DataTypes.UUID,
-      references: {
-        model: User,
-        key: "id",
-        deferrable: Deferrable.INITIALLY_IMMEDIATE,
-      },
-    },
   },
   {
     freezeTableName: true, // Other model options go here
   }
 );
+
+Product.belongsTo(User);
+User.hasMany(Product);
 
 module.exports = Product;

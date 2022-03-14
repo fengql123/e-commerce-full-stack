@@ -1,16 +1,18 @@
 const { Router } = require("express");
 const apiRouter = Router();
-
-const cartRouter = require("./cart");
-const checkoutRouter = require("./checkout");
 const orderRouter = require("./order");
-const productRouter = require("./product");
 const userRouter = require("./user");
+const cartRouter = require("./cart");
+const productRouter = require("./product");
 
-apiRouter.use("/cart", cartRouter);
-apiRouter.use("/checkout", checkoutRouter);
-apiRouter.use("/order", orderRouter);
-apiRouter.use("/product", productRouter);
-apiRouter.use("/user", userRouter);
+const assignUserId = (req, res, next) => {
+  req.id = req.params.id;
+  next();
+};
+
+apiRouter.use("/:id/order", assignUserId, orderRouter);
+apiRouter.use("/:id/product", assignUserId, productRouter);
+apiRouter.use("/:id/cart", assignUserId, cartRouter);
+apiRouter.use("/", userRouter);
 
 module.exports = apiRouter;

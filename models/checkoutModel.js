@@ -1,5 +1,6 @@
 const sequelize = require("./connection");
 const { DataTypes } = require("sequelize");
+const User = require("./userModel");
 
 const CheckOut = sequelize.define(
   "CheckOut",
@@ -8,18 +9,13 @@ const CheckOut = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    user_id: {
-      type: DataTypes.UUID,
-      references: {
-        model: User,
-        key: "id",
-        deferrable: Deferrable.INITIALLY_IMMEDIATE,
-      },
-    },
   },
   {
     freezeTableName: true, // Other model options go here
   }
 );
+
+CheckOut.belongsTo(User);
+User.hasMany(CheckOut);
 
 module.exports = CheckOut;
