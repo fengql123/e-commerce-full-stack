@@ -3,9 +3,6 @@ const conString = process.env.CONNECTION;
 const { DB_HOST, DB_USERNAME, DB_PASSWORD } = process.env;
 const { Sequelize } = require("sequelize");
 
-const sequelize = new Sequelize("ecommerce", DB_USERNAME, DB_PASSWORD, {
-  host: "localhost",
-  dialect: "postgres",
-});
+const sequelize = new Sequelize(conString);
 
 module.exports = sequelize;
