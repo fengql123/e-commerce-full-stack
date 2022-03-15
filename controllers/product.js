@@ -4,6 +4,7 @@ const Product = require("../models/productModel");
 const Cart_Product = require("../models/cart_product");
 const productRouter = Router();
 
+//function to check whether a user is a seller
 const checkSeller = async (req, res, next) => {
   const user = await User.findByPk(req.id);
   if (user.isSeller) {
@@ -13,6 +14,7 @@ const checkSeller = async (req, res, next) => {
   }
 };
 
+//add a product by a seller
 productRouter.post("/", checkSeller, async (req, res) => {
   try {
     const product = await Product.create({
@@ -27,6 +29,7 @@ productRouter.post("/", checkSeller, async (req, res) => {
   }
 });
 
+//get all product info
 productRouter.get("/", async (req, res) => {
   try {
     const product = await Product.findAll();
@@ -36,6 +39,7 @@ productRouter.get("/", async (req, res) => {
   }
 });
 
+//check product exist
 productRouter.use("/:productId", async (req, res, next) => {
   const product = await Product.findOne({
     where: {
@@ -50,6 +54,7 @@ productRouter.use("/:productId", async (req, res, next) => {
   }
 });
 
+//get single product info
 productRouter.get("/:productId", async (req, res) => {
   try {
     res.status(200).send(req.product);
@@ -58,6 +63,7 @@ productRouter.get("/:productId", async (req, res) => {
   }
 });
 
+//add product to cart
 productRouter.post("/:productId/addToCart", async (req, res) => {
   try {
     const cart = await Cart.findOne({

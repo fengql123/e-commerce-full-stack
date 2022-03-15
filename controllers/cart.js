@@ -6,6 +6,7 @@ const Order = require("../models/orderModel");
 const Product_Order = require("../models/product_order");
 const cartRouter = Router();
 
+//ensure one user can only create one cart
 const checkCartExist = async (req, res, next) => {
   const cartExist = (await Cart.findOne({ userId: req.id })) ? true : false;
   if (cartExist) {
@@ -15,6 +16,7 @@ const checkCartExist = async (req, res, next) => {
   }
 };
 
+//create an empty cart
 cartRouter.post("/", checkCartExist, async (req, res) => {
   try {
     const cart = await Cart.create(
@@ -29,6 +31,7 @@ cartRouter.post("/", checkCartExist, async (req, res) => {
   }
 });
 
+//get a user's cart info
 cartRouter.get("/", async (req, res) => {
   try {
     const cart = await Cart.findOne({
@@ -46,6 +49,7 @@ cartRouter.get("/", async (req, res) => {
   }
 });
 
+//send an order of a cart and empty the cart
 cartRouter.post("/sendOrder", async (req, res) => {
   try {
     const newOrder = await Order.create({ UserId: req.id });

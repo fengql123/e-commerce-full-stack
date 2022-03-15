@@ -2,10 +2,9 @@ const { Router } = require("express");
 const CheckOut = require("../models/checkoutModel");
 const User = require("../models/userModel");
 const hash = require("object-hash");
-const Order = require("../models/orderModel");
-const Product = require("../models/productModel");
 const userRouter = Router();
 
+//sign up
 userRouter.post("/create", async (req, res) => {
   try {
     const newUser = await User.create(
@@ -26,6 +25,7 @@ userRouter.post("/create", async (req, res) => {
   }
 });
 
+//login
 userRouter.get("/login", async (req, res) => {
   const user = await User.findOne({
     where: {
@@ -40,6 +40,7 @@ userRouter.get("/login", async (req, res) => {
   }
 });
 
+//check user
 userRouter.use("/:id", async (req, res, next) => {
   const user = await User.findByPk(req.params.id);
   if (user) {
@@ -49,6 +50,7 @@ userRouter.use("/:id", async (req, res, next) => {
   }
 });
 
+//get single user info
 userRouter.get("/:id", async (req, res) => {
   try {
     const user = await User.findByPk(req.params.id);
@@ -58,6 +60,7 @@ userRouter.get("/:id", async (req, res) => {
   }
 });
 
+//edit single user info
 userRouter.put("/:id/edit", async (req, res) => {
   try {
     await User.update(
@@ -79,6 +82,7 @@ userRouter.put("/:id/edit", async (req, res) => {
   }
 });
 
+//delete a user
 userRouter.delete("/:id/delete", async (req, res) => {
   try {
     await User.destroy({
@@ -92,6 +96,7 @@ userRouter.delete("/:id/delete", async (req, res) => {
   }
 });
 
+//get a user's checkout info
 userRouter.get("/:id/checkout", async (req, res) => {
   try {
     const checkout = await CheckOut.findAll({

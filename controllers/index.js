@@ -5,6 +5,7 @@ const userRouter = require("./user");
 const cartRouter = require("./cart");
 const productRouter = require("./product");
 
+//allow all other routers to use userId as req.id
 const assignUserId = (req, res, next) => {
   req.id = req.params.id;
   next();
