@@ -8,20 +8,20 @@ module.exports = {
     password: DB_PASSWORD,
     database: "database_development",
     host: DB_HOST,
-    dialect: "postgresql",
+    dialect: "postgres",
   },
   test: {
     username: DB_USERNAME,
     password: DB_PASSWORD,
     database: "database_test",
     host: DB_HOST,
-    dialect: "postgresql",
+    dialect: "postgres",
   },
   production: {
     username: DB_USERNAME,
     password: DB_PASSWORD,
     database: "database_production",
     host: DB_HOST,
-    dialect: "postgresql",
+    dialect: "postgres",
   },
 };
