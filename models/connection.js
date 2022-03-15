@@ -3,7 +3,7 @@ const conString = process.env.CONNECTION;
 const { DB_HOST, DB_USERNAME, DB_PASSWORD } = process.env;
 const { Sequelize } = require("sequelize");
 
-const sequelize = new Sequelize(precess.env.DATABASE_URL, {
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: "postgres",
 });
 
