@@ -1,7 +1,5 @@
 const { Router } = require("express");
-const Cart = require("../models/cartModel");
-const Product = require("../models/productModel");
-const Cart_Product = require("../models/cart_product");
+const { Cart, Product, Cart_Product, User } = require("../models");
 const productRouter = Router();
 
 //function to check whether a user is a seller
@@ -21,7 +19,7 @@ productRouter.post("/", checkSeller, async (req, res) => {
       name: req.body.name,
       price: req.body.price,
       stock: req.body.stock,
-      UserId: req.id,
+      userId: req.id,
     });
     res.status(200).send(product);
   } catch (error) {
@@ -68,7 +66,7 @@ productRouter.post("/:productId/addToCart", async (req, res) => {
   try {
     const cart = await Cart.findOne({
       where: {
-        UserId: req.id,
+        userId: req.id,
       },
     });
     await Cart_Product.create({

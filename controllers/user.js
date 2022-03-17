@@ -1,6 +1,5 @@
 const { Router } = require("express");
-const CheckOut = require("../models/checkoutModel");
-const User = require("../models/userModel");
+const { User, CheckOut } = require("../models");
 const hash = require("object-hash");
 const userRouter = Router();
 
