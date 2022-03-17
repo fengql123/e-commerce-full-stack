@@ -1,8 +1,8 @@
 const { Router } = require("express");
-const User = require("../models/userModel");
-const Cart = require("../models/cartModel");
-const Product = require("../models/productModel");
-const Order = require("../models/orderModel");
+const User = require("../models/user");
+const Cart = require("../models/cart");
+const Product = require("../models/product");
+const Order = require("../models/order");
 const Product_Order = require("../models/product_order");
 const cartRouter = Router();
 
@@ -20,7 +20,7 @@ const checkCartExist = async (req, res, next) => {
 cartRouter.post("/", checkCartExist, async (req, res) => {
   try {
     const cart = await Cart.create(
-      { UserId: req.id },
+      { userId: req.id },
       {
         include: [User],
       }
@@ -36,7 +36,7 @@ cartRouter.get("/", async (req, res) => {
   try {
     const cart = await Cart.findOne({
       where: {
-        UserId: req.id,
+        userId: req.id,
       },
     });
     const cartItems = await Cart.findOne({
@@ -55,7 +55,7 @@ cartRouter.post("/sendOrder", async (req, res) => {
     const newOrder = await Order.create({ UserId: req.id });
     const cart = await Cart.findOne({
       where: {
-        UserId: req.id,
+        userId: req.id,
       },
     });
     const cartItems = await Cart.findOne({
