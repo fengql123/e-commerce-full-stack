@@ -19,4 +19,8 @@ An API that has the basic e-commerce functions.
 13. Send order (post request to /user/:id/cart/sendOrder **this will empty the cart but will not delete the cart**)
 14. Check a single user's order (get request to /user/:id/order)
 
+## ###How to use
+
+This Api is deployed on heroku so simply start sending http requests to **https://fql-ecommerce-app.herokuapp.com/**.
+
 **Feel free to give me some feedbacks!**
