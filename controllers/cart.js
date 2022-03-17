@@ -1,9 +1,5 @@
 const { Router } = require("express");
-const User = require("../models/user");
-const Cart = require("../models/cart");
-const Product = require("../models/product");
-const Order = require("../models/order");
-const Product_Order = require("../models/product_order");
+const { Cart, Product, Product_Order, User, Order } = require("../models");
 const cartRouter = Router();
 
 //ensure one user can only create one cart

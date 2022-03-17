@@ -1,6 +1,5 @@
 const { Router } = require("express");
-const Order = require("../models/order");
-const Product = require("../models/product");
+const { Order, Product } = require("../models");
 const orderRouter = Router({ mergeParams: true });
 
 //get all order of a user
