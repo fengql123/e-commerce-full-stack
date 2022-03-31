@@ -50,16 +50,14 @@ module.exports = (sequelize, DataTypes) => {
             msg: "Please enter your password",
           },
         },
-        set(value) {
-          // Storing passwords in plaintext in the database is terrible.
-          // Hashing the value with an appropriate cryptographic hash function is better.
-          this.setDataValue("password", hash(value));
-        },
       },
       isSeller: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
+      },
+      avatar: {
+        type: DataTypes.STRING,
       },
     },
     {

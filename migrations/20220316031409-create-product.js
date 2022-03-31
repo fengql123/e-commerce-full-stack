@@ -36,6 +36,15 @@ module.exports = {
           },
         },
       },
+      image: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "Please upload an image for your product",
+          },
+        },
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,

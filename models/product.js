@@ -55,6 +55,15 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+      image: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: "Please upload an image for your product",
+          },
+        },
+      },
     },
     {
       sequelize,

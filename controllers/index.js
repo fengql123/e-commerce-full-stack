@@ -7,13 +7,13 @@ const productRouter = require("./product");
 
 //allow all other routers to use userId as req.id
 const assignUserId = (req, res, next) => {
-  req.id = req.params.id;
+  req.id = req.id;
   next();
 };
 
-apiRouter.use("/:id/order", assignUserId, orderRouter);
-apiRouter.use("/:id/product", assignUserId, productRouter);
-apiRouter.use("/:id/cart", assignUserId, cartRouter);
-apiRouter.use("/", userRouter);
+apiRouter.use("/order", assignUserId, orderRouter);
+apiRouter.use("/product", assignUserId, productRouter);
+apiRouter.use("/cart", assignUserId, cartRouter);
+apiRouter.use("/", assignUserId, userRouter);
 
 module.exports = apiRouter;
