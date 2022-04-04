@@ -56,13 +56,16 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       image: {
-        type: DataTypes.STRING,
+        type: DataTypes.BLOB,
         allowNull: false,
         validate: {
           notNull: {
             msg: "Please upload an image for your product",
           },
         },
+      },
+      image_type: {
+        type: DataTypes.STRING,
       },
     },
     {

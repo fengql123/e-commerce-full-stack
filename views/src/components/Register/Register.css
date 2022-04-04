@@ -1,0 +1,44 @@
+.register {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background: #c9bbe7;
+  font-family: "Jua", sans-serif;
+  color: #4b4853;
+}
+
+.register form select {
+  margin-top: 16px;
+  cursor: pointer;
+}
+
+.register form .form-group {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.register button {
+  background-color: #534848;
+  border: none;
+  outline: none;
+  color: white;
+}
+
+.register button:hover {
+  background-color: gray;
+}
+
+.register button:active {
+  background-color: darkgray;
+  outline: none;
+  border: none;
+}
+
+.register button:focus {
+  background-color: darkgray;
+  outline: none;
+  border: none;
+}

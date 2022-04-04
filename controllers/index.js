@@ -14,6 +14,6 @@ const assignUserId = (req, res, next) => {
 apiRouter.use("/order", assignUserId, orderRouter);
 apiRouter.use("/product", assignUserId, productRouter);
 apiRouter.use("/cart", assignUserId, cartRouter);
-apiRouter.use("/", assignUserId, userRouter);
+apiRouter.use("/profile", assignUserId, userRouter);
 
 module.exports = apiRouter;

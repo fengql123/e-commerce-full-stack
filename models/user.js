@@ -57,6 +57,9 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: false,
       },
       avatar: {
+        type: DataTypes.BLOB,
+      },
+      avatar_type: {
         type: DataTypes.STRING,
       },
     },

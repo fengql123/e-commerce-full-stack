@@ -44,7 +44,7 @@ module.exports = {
         defaultValue: false,
       },
       avatar: {
-        type: DataTypes.STRING,
+        type: DataTypes.BLOB,
       },
       createdAt: {
         allowNull: false,

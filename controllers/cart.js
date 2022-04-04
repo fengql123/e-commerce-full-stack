@@ -1,5 +1,12 @@
 const { Router } = require("express");
-const { Cart, Product, Product_Order, User, Order } = require("../models");
+const {
+  Cart,
+  Product,
+  Product_Order,
+  User,
+  Order,
+  Cart_Product,
+} = require("../models");
 const cartRouter = Router();
 
 //ensure one user can only create one cart
@@ -48,16 +55,18 @@ cartRouter.get("/", async (req, res) => {
 //send an order of a cart and empty the cart
 cartRouter.post("/sendOrder", async (req, res) => {
   try {
-    const newOrder = await Order.create({ UserId: req.id });
+    const newOrder = await Order.create({ userId: req.id });
     const cart = await Cart.findOne({
       where: {
         userId: req.id,
       },
     });
+    console.log(cart);
     const cartItems = await Cart.findOne({
       where: { id: cart.id },
       include: Product,
     });
+    console.log(cartItems);
     cartItems.Products.map(async (product) => {
       await Product_Order.create({
         OrderId: newOrder.id,
@@ -69,12 +78,12 @@ cartRouter.post("/sendOrder", async (req, res) => {
         { where: { id: product.id } }
       );
     });
-    await Cart.destroy({
-      where: { id: cart.id },
+    await Cart_Product.destroy({
+      where: { CartId: cart.id },
     });
-    res.status(200).send("Order Sent");
+    res.status(200).json({ success: true });
   } catch (error) {
-    res.status(404).send(error.message);
+    res.status(404).json({ success: false });
   }
 });
 

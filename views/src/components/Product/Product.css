@@ -1,0 +1,32 @@
+.card {
+  font-family: "Jua", sans-serif;
+  color: #534848;
+}
+
+.card .card-body button {
+  background-color: #c9bbe7;
+  border: none;
+  outline: none;
+  color: white;
+}
+
+.card .card-body button:hover {
+  background-color: gray;
+}
+
+.card .card-body button:active {
+  background-color: darkgray;
+  outline: none;
+  border: none;
+}
+
+.card .card-body button:focus {
+  background-color: darkgray;
+  outline: none;
+  border: none;
+}
+
+.card .card-body .add-and-close {
+  display: flex;
+  align-items: center;
+}

@@ -37,7 +37,7 @@ module.exports = {
         },
       },
       image: {
-        type: DataTypes.STRING,
+        type: DataTypes.BLOB,
         allowNull: false,
         validate: {
           notNull: {

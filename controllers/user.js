@@ -4,7 +4,7 @@ const hash = require("object-hash");
 const userRouter = Router();
 
 //get single user info
-userRouter.get("/profile", async (req, res) => {
+userRouter.get("/", async (req, res) => {
   try {
     const user = await User.findByPk(req.id);
     res.status(200).send(user);
@@ -14,14 +14,12 @@ userRouter.get("/profile", async (req, res) => {
 });
 
 //edit single user info
-userRouter.put("/profile/edit", async (req, res) => {
+userRouter.put("/edit", async (req, res) => {
   try {
     await User.update(
       {
         name: req.body.name,
         email: req.body.email,
-        password: hash(req.body.password),
-        isSeller: req.body.isSeller,
       },
       {
         where: {
@@ -29,14 +27,14 @@ userRouter.put("/profile/edit", async (req, res) => {
         },
       }
     );
-    res.status(200).send("update successful");
+    res.status(200).json({ success: true });
   } catch (error) {
-    res.status(404).send(error.message);
+    res.status(404).json({ success: false });
   }
 });
 
 //delete a user
-userRouter.delete("/profile/delete", async (req, res) => {
+userRouter.delete("/delete", async (req, res) => {
   try {
     await User.destroy({
       where: {
@@ -50,7 +48,7 @@ userRouter.delete("/profile/delete", async (req, res) => {
 });
 
 //get a user's checkout info
-userRouter.get("/profile/checkout", async (req, res) => {
+userRouter.get("/checkout", async (req, res) => {
   try {
     const checkout = await CheckOut.findAll({
       where: {

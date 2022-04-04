@@ -1,0 +1,38 @@
+.login {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background: #c9bbe7;
+  font-family: "Jua", sans-serif;
+  color: #534848;
+}
+
+.login h3 {
+  margin-bottom: 20px;
+}
+
+.login button {
+  background-color: #534848;
+  border: none;
+  outline: none;
+  color: white;
+}
+
+.login button:hover {
+  background-color: gray;
+}
+
+.login button:active {
+  background-color: darkgray;
+  outline: none;
+  border: none;
+}
+
+.login button:focus {
+  background-color: darkgray;
+  outline: none;
+  border: none;
+}

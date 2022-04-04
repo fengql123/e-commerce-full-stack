@@ -2,14 +2,6 @@ const { Router } = require("express");
 const { Cart, Product, Cart_Product, User } = require("../models");
 const productRouter = Router();
 const multer = require("multer");
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "public/data/uploads");
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + file.originalname);
-  },
-});
 const fileFilter = (req, file, cb) => {
   if (file.mimetype.split("/")[0] === "image") {
     cb(null, true);
@@ -18,7 +10,6 @@ const fileFilter = (req, file, cb) => {
   }
 };
 const upload = multer({
-  storage: storage,
   limits: {
     fileSize: 1024 * 1024 * 10,
   },
@@ -39,19 +30,20 @@ const checkSeller = async (req, res, next) => {
 productRouter.post(
   "/",
   checkSeller,
-  upload.single("uploaded_file"),
+  upload.single("productImg"),
   async (req, res) => {
     try {
-      const product = await Product.create({
+      await Product.create({
         name: req.body.name,
         price: req.body.price,
         stock: req.body.stock,
         userId: req.id,
-        image: req.file.path,
+        image: req.file.buffer,
+        image_type: req.file.mimetype.split("/")[1],
       });
-      res.status(200).send(product);
+      res.status(200).json({ success: true });
     } catch (error) {
-      res.status(404).send(error.message);
+      res.status(404).json({ success: false });
     }
   }
 );
@@ -98,14 +90,15 @@ productRouter.post("/:productId/addToCart", async (req, res) => {
         userId: req.id,
       },
     });
+    console.log(cart);
     await Cart_Product.create({
-      CartId: cart.id,
+      CartId: cart.dataValues.id,
       ProductId: req.params.productId,
       product_qt: req.body.productQt,
     });
-    res.status(200).send("Item Added");
+    res.status(200).json({ success: true });
   } catch (error) {
-    res.status(404).send(error.message);
+    res.status(404).json({ success: false });
   }
 });
 

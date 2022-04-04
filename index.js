@@ -8,17 +8,22 @@ const apiRouter = require("./controllers");
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
-const { User, CheckOut } = require("./models");
+const { User, CheckOut, Cart } = require("./models");
 const bcrypt = require("bcrypt");
 const multer = require("multer");
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "public/data/uploads");
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + file.originalname);
-  },
-});
+
+const sess = {
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 1000 * 60 * 60 * 24, sameSite: "none" },
+};
+
+if (process.env.NODE_ENV === "production") {
+  app.set("trust proxy", 1); // trust first proxy
+  sess.cookie.secure = true;
+}
+
 const fileFilter = (req, file, cb) => {
   if (file.mimetype.split("/")[0] === "image") {
     cb(null, true);
@@ -27,27 +32,16 @@ const fileFilter = (req, file, cb) => {
   }
 };
 const upload = multer({
-  storage: storage,
   limits: {
     fileSize: 1024 * 1024 * 10,
   },
   fileFilter,
 });
 
-app.set("view-engine", "ejs");
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/public/data/uploads", express.static("public/data/uploads"));
-
-app.use(
-  session({
-    secret: "D53gxl41G",
-    cookie: { maxAge: 1000 * 60 * 60 * 24, secure: true, sameSite: "none" },
-    resave: false,
-    saveUninitialized: false,
-  })
-);
+app.use(session(sess));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -80,58 +74,56 @@ passport.deserializeUser(async (id, done) => {
   done(null, user);
 });
 
-app.get("/login", (req, res) => {
-  res.render("login.ejs");
-});
-
 let id;
 
 //log in
 app.post(
   "/login",
-  passport.authenticate("local", { failureRedirect: "/login" }),
+  passport.authenticate("local", { failureRedirect: "/login", session: true }),
   (req, res) => {
     id = req.session.passport.user;
-    res.redirect("/profile");
+    res.json({ success: true });
   }
 );
 
 //sign up
-app.post("/create", upload.single("uploaded_file"), async (req, res) => {
+app.post("/create", upload.single("avatar"), async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    await User.create(
+    const newUser = await User.create(
       {
         name: req.body.name,
         email: req.body.email,
         password: hashedPassword,
         isSeller: req.body.isSeller,
-        avatar: req.file.path,
+        avatar: req.file.buffer,
+        avatar_type: req.file.mimetype.split("/")[1],
         CheckOuts: [{ payment: req.body.payment }],
       },
       {
         include: [CheckOut],
       }
     );
-    res.status(200).redirect("/login");
+    await Cart.create(
+      { userId: newUser.id },
+      {
+        include: [User],
+      }
+    );
+    res.status(200).json({ success: true });
   } catch (error) {
-    res.status(404).redirect("/create");
+    res.status(404).json({ success: false });
   }
 });
 
 //log out
 app.get("/logout", (req, res) => {
   req.logout();
-  res.redirect("/login");
-});
-
-app.get("/create", (req, res) => {
-  res.render("register.ejs");
+  res.send({ logout: true });
 });
 
 const assignUserId = (req, res, next) => {
   req.id = id;
-  console.log(req.id);
   next();
 };
 

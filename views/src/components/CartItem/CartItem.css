@@ -1,0 +1,23 @@
+.cartItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 20%;
+  width: 60%;
+  background: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+}
+
+.cartItem .product-name-pic {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cartItem .product-name-pic img {
+  height: 100px;
+  width: 100px;
+}
